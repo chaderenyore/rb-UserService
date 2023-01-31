@@ -1,6 +1,5 @@
 exports.TYPE = {
-    SECURITY: 'security',
-    LOGIN: 'login',
-    TOKEN:'token'
+    USER: 'user',
+    ORG: 'org'
   };
   
