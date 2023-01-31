@@ -9,6 +9,10 @@ const KEYS = {
   redisPort: process.env.REDISPORT,
   redisPassword: process.env.REDISPASSWORD,
   appVersion: process.env.APP_VERSION,
+  AUTH_URI: process.env.AUTH_URI,
+  AMQP_URI:process.env.AMQP_URI,
+  UPDATE_PROFILE_PHOTO_QUEUE: process.env.UPDATE_PROFILE_PHOTO_QUEUE,
+  CREATE_USER_QUEUE: process.env.CREATE_USER_QUEUE,
 };
 
 module.exports = KEYS;
