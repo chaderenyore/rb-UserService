@@ -14,7 +14,7 @@ const schema = mongoose.Schema(
     auth_type:{
       type: String,
       // lc= local auth; gg=google auth; fb=facebook auth; ap =apple auth
-      enum: ["lc", "gg", "fb", "ap", "local" ],
+      enum: ["lc", "gg", "fb", "ap"],
     },
     image: String,
     user_type: {

@@ -2,8 +2,11 @@ const mongoose = require("mongoose");
 const app = require("./src");
 const KEYS = require("./src/_config/keys");
 const logger  = require('./logger.conf');
-// const { createQConnection } = require("./src/config/queue/_init_queue");
+const CreateUserConsumer = require('./src/_queue/consumers/createUserConsumer');
+const UploadFileConsumer = require('./src/_queue/consumers/uploadFile.consumer');
 
+CreateUserConsumer.consume("Create User");
+UploadFileConsumer.consume("Upload File");
 
 mongoose.set('strictQuery', true);
 mongoose

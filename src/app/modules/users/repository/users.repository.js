@@ -1,10 +1,10 @@
 const Repository = require("../../../Repository");
 const User  = require("../models/user.model");
 
-class FollowerRepository extends Repository {
+class UserRepository extends Repository {
     constructor() {
-        super(Follower);
+        super(User);
     };
 }
 
-module.exports = new FollowerRepository();
+module.exports = new UserRepository();
