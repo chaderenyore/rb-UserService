@@ -9,7 +9,7 @@ const CreateUserConsumer = new Connnection(KEYS.AMQP_URI, KEYS.CREATE_USER_QUEUE
       console.info(` [x] Consumed : ${message}`);
 
       const {
-        email, first_name,
+        email, first_name, phone_number
       } = JSON.parse(message);
 
       try {
