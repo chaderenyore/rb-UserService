@@ -44,6 +44,14 @@ class Repository {
     );
   }
 
+  aggregate(condition, field) {
+    return this.Model.aggregate([
+        {
+          $match:condition,
+        },
+        { $group: { _id: null, field: { $sum: +field } } },
+      ]);
+}
   update (condition, update) {
     return this.Model.findOneAndUpdate (condition, update, {
       new: true,
