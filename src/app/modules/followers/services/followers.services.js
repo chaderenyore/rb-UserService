@@ -29,6 +29,9 @@ class FollowerService {
   async findById (id) {
     return this.UserRepository.findById (id)
   }
+  async aggregate (condition, field) {
+    return this.UserRepository.aggregate(condition, field)
+ }
 }
 
 module.exports = FollowerService;
