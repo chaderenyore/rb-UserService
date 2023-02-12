@@ -43,7 +43,7 @@ const apiRouter = express.Router();
 
 // expose routes here
 apiRouter.use(routes());
-const apiURL = `/user/${KEYS.appVersion}`;
+const apiURL = `/users/${KEYS.appVersion}`;
 app.use(apiURL, apiRouter);
 // handler for route-not-found
 apiRouter.use((_req, _res, next) => {
