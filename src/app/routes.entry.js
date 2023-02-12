@@ -9,7 +9,7 @@ module.exports = () => {
   
   const router = Router();
 
-//   router.use("/", User);
+  router.use("/", User);
 //   router.use("/", Follower);
   return router;
 };
