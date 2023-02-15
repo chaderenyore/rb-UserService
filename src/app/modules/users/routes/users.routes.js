@@ -14,6 +14,7 @@ const UserProfileController = require("../controllers/getUserProfile.controller"
 const SortUserController = require("../controllers/adminSortUsers.controllers");
 const UpdateUserController = require("../controllers/updateUserInfo.controller");
 const UpdateImageController = require("../controllers/uploadUserImage.controller");
+const ViewAllUsersController = require("../controllers/viewAllUsersInCommunity.controller");
 
 const uploadFile = require("../../../../_helpers/uploadFile");
 const KEYS = require("../../../../_config/keys");
@@ -44,6 +45,13 @@ router.get(
   authorizeAdmin(["super", "admin", "support"]),
   validateRequest(AllUsers.getAllUsersSchema, "body"),
   AllUsersController.getAllUsers
+);
+
+router.get(
+  "/view-users",
+  authorize(["user", "org"]),
+  validateRequest(AllUsers.getAllUsersSchema, "body"),
+  ViewAllUsersController.viewAllUsers
 );
 
 router.get(

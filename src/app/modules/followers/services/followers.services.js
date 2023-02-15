@@ -22,6 +22,11 @@ class FollowerService {
 
   }
 
+  async deleteOne (condition) {
+    return this.UserRepository.deleteOne (condition)
+
+  }
+
   async all (limit, page, data) {
     return this.UserRepository.all (limit, page, data)
   }
