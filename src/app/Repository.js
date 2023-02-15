@@ -44,6 +44,11 @@ class Repository {
     );
   }
 
+  deleteOne (condition) {
+    return this.Model.deleteOne (
+      condition,
+    );
+  }
   aggregate(condition, field) {
     return this.Model.aggregate([
         {
