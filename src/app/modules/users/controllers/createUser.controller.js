@@ -9,7 +9,7 @@ exports.createUser = async (req, res, next) => {
   try {
     //  verify user exist=====check the login model
     const user = await new UserService().findAUser({ email: req.body.email });
-    console.log("PHONE NUMBER ================ ", req.body.phone_number)
+    console.log("PHONE NUMBER ================ ", req.body.phone_number);
     const phoneNumberExists = await new UserService().findAUser({
       phone_number: req.body.phone_number,
     });
@@ -27,9 +27,12 @@ exports.createUser = async (req, res, next) => {
           },
         ])
       );
-    };
-    console.log("PHONE NUMBER EXISTS ====================== ", phoneNumberExists)
-    if (phoneNumberExists) {
+    }
+    console.log(
+      "PHONE NUMBER EXISTS ====================== ",
+      phoneNumberExists
+    );
+    if (req.body.phone_number && phoneNumberExists) {
       return next(
         createError(HTTP.UNAUTHORIZED, [
           {
@@ -44,7 +47,7 @@ exports.createUser = async (req, res, next) => {
     }
     // create user
     const newUser = await new UserService().createUser(req.body);
-    console.log("NEW USER : ========= : ", newUser)
+    console.log("NEW USER : ========= : ", newUser);
     return createResponse("User Created", newUser)(res, HTTP.OK);
   } catch (err) {
     console.log(err);
