@@ -2,40 +2,40 @@ const FollowerRepository = require ('../repository/follower.repository');
 
 class FollowerService {
   constructor () {
-    this.UserRepository = UserRepository;
+    this.FollowerRepository = FollowerRepository;
   }
 
   async createFollwer (data) {
-    return this.UserRepository.create (data)
+    return this.FollowerRepository.create (data)
   }
 
   async findAFollower (query) {
-    return this.UserRepository.findOne (query)
+    return this.FollowerRepository.findOne (query)
   }
 
   async update (condition, update) {
-    return this.UserRepository.update (condition, update)
+    return this.FollowerRepository.update (condition, update)
 
   }
   async deleteAll (condition) {
-    return this.UserRepository.deleteMany (condition)
+    return this.FollowerRepository.deleteMany (condition)
 
   }
 
   async deleteOne (condition) {
-    return this.UserRepository.deleteOne (condition)
+    return this.FollowerRepository.deleteOne (condition)
 
   }
 
   async all (limit, page, data) {
-    return this.UserRepository.all (limit, page, data)
+    return this.FollowerRepository.all (limit, page, data)
   }
 
   async findById (id) {
-    return this.UserRepository.findById (id)
+    return this.FollowerRepository.findById (id)
   }
   async aggregate (condition, field) {
-    return this.UserRepository.aggregate(condition, field)
+    return this.FollowerRepository.aggregate(condition, field)
  }
 }
 

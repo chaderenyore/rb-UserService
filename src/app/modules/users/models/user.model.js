@@ -11,6 +11,8 @@ const schema = mongoose.Schema(
     imei:{type: String},
     username: { type: String, sparse: true, default: "" },
     email: String,
+    follower_count: {type: Number, default: 0},
+    following_count: {type: Number, default: 0},
     auth_type:{
       type: String,
       // lc= local auth; gg=google auth; fb=facebook auth; ap =apple auth
