@@ -8,18 +8,33 @@ const logger = require("../../../../../logger.conf");
 
 exports.UnfollowUser = async (req, res, next) => {
   try {
-    // remove follower record
     const data = {
       follower_id: req.user.user_id,
-      follower_owner_id: req.body.follower_owner_id,
+      following_id: req.body.following_id,
     };
+    // check if the user is a folower of target
+    const isFollowing = await new FollowerService().findAFollower(data);
+    if(!isFollowing){
+      return next(
+        createError(HTTP.BAD_REQUEST, [
+          {
+            status: RESPONSE.ERROR,
+            message: "You Do Not Follow This User",
+            statusCode: HTTP.BAD_REQUEST,
+            data: null,
+            code: HTTP.BAD_REQUEST,
+          },
+        ])
+      );
+    } else {
+          // remove follower record
     const User = new FollowerService().deleteOne(data);
     if (!User) {
       return next(
         createError(HTTP.UNAUTHORIZED, [
           {
             status: RESPONSE.ERROR,
-            message: "You Arre Not Following This User",
+            message: "You Are Not Following This User",
             statusCode: HTTP.SERVER_ERROR,
             data: null,
             code: HTTP.UNAUTHORIZED,
@@ -39,6 +54,8 @@ exports.UnfollowUser = async (req, res, next) => {
       );
       return createResponse("Unfollowed User Successfully", User)(res, HTTP.OK);
     }
+    }
+ 
   } catch (err) {
     console.log(err);
     return next(createError.InternalServerError(err));

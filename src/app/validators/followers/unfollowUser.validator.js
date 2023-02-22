@@ -1,5 +1,6 @@
-const Joi = require("joi").extend(require("@joi/date"));
+const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 exports.unfollowUserSchema = Joi.object({
-    follower_owner_id: Joi.string().required(),
+    following_id: Joi.objectId().required(),
 });
