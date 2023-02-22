@@ -3,6 +3,7 @@ const { RESPONSE } = require("../../../../_constants/response");
 const createError = require("../../../../_helpers/createError");
 const { createResponse } = require("../../../../_helpers/createResponse");
 const FollowerService = require("../services/followers.services");
+const FollowingService = require("../services/following.service");
 const UserService = require("../../users/services/users.services");
 const logger = require("../../../../../logger.conf");
 
@@ -27,6 +28,8 @@ exports.UnfollowUser = async (req, res, next) => {
         ])
       );
     } else {
+      // remove following record
+      const followingRecord = await new FollowingService().deleteOne(data)
           // remove follower record
     const User = new FollowerService().deleteOne(data);
     if (!User) {
