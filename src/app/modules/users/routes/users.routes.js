@@ -79,7 +79,7 @@ router.put(
     "/image",
     authorize(["admin", "user", "minder"]),
     // validateRequest(UpdateProfile.updateProfileSchema, "body"),
-    uploadFile("user", KEYS.AWS_ID, KEYS.ACCESS_KEY).single("user_img"),
+    uploadFile("users").single("user_img"),
     UpdateImageController.updateProfilePicture
   );
   

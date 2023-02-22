@@ -4,14 +4,17 @@ const dotenv = require("dotenv");
 var multerS3 = require("multer-s3");
 const randomstring = require("randomstring");
 dotenv.config();
+const KEYS = require("../_config/keys");
 
-function defaultFunction(directory, ID, SECRET) {
+
+function defaultFunction(directory) {
   const s3 = new aws.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET,
+    region:"us-east-1",
+    accessKeyId:KEYS.AWS_ACCESS_KEY,
+    secretAccessKey: KEYS.AWS_SECRET_ACCESS_KEY,
   });
 
-  const extensions = ["jpeg", "jpg", "png", "tiff"];
+  const extensions = ["jpeg", "jpg", "png", "tiff", "mp4"];
 
   const fileFilter = (req, file, cb) => {
     if (extensions.includes(file.mimetype.split("/")[1])) {
@@ -25,6 +28,7 @@ function defaultFunction(directory, ID, SECRET) {
     storage: multerS3({
       s3: s3,
       bucket: "researchbuddy-media",
+      acl: 'private',
       metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
       },
