@@ -24,16 +24,14 @@ class Connnection {
     return consumer;
   }
 
-  async publish(service) {
+  async publish(service, data) {
     const { channel, conn } = await this.createConnection();
     this.channel = channel;
     this.conn = conn;
     await channel.assertQueue(this.queue);
     console.log(`${service} Publisher listening on queue ${this.queue}`);
-    const publisher = await channel.publish(this.queue, (msg) => {
-      this.onMessage(msg);
-    });
-    return publisher;
+    const publisher = await channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(data)));
+    return null
   }
 
   async close() {

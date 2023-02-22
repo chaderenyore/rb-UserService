@@ -1,34 +1,33 @@
-const UserRepository = require ('../repository/users.repository');
+const UserRepository = require("../repository/users.repository");
 
 class UserService {
-  constructor () {
+  constructor() {
     this.UserRepository = UserRepository;
   }
 
-  async createUser (data) {
-    return this.UserRepository.create (data)
+  async createUser(data) {
+    return this.UserRepository.create(data);
   }
 
-  async findAUser (query) {
-    return this.UserRepository.findOne (query)
+  async findAUser(query) {
+    return this.UserRepository.findOne(query);
+  }
+  async find(query) {
+    return this.UserRepository.find(query);
+  }
+  async update(condition, update) {
+    return this.UserRepository.update(condition, update);
+  }
+  async deleteAll(condition) {
+    return this.UserRepository.deleteMany(condition);
   }
 
-  async update (condition, update) {
-    return this.UserRepository.update (condition, update)
-
-  }
-  async deleteAll (condition) {
-    return this.UserRepository.deleteMany (condition)
-
+  async all(limit, page, data) {
+    return this.UserRepository.all(limit, page, data);
   }
 
-
-  async all (limit, page, data) {
-    return this.UserRepository.all (limit, page, data)
-  }
-
-  async findUserById (id) {
-    return this.UserRepository.findById (id)
+  async findUserById(id) {
+    return this.UserRepository.findById(id);
   }
 }
 

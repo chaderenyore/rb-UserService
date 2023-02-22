@@ -17,6 +17,11 @@ class FollowerService {
     return this.FollowerRepository.update (condition, update)
 
   }
+
+  async updateMany (condition, update) {
+    return this.FollowerRepository.updateMany (condition, update)
+
+  }
   async deleteAll (condition) {
     return this.FollowerRepository.deleteMany (condition)
 

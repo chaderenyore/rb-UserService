@@ -36,9 +36,9 @@ router.post(
   UnfollowUserController.UnfollowUser
 );
 router.get(
-  "/follwers-all",
+  "/followers-all",
   authorize(["user", "org"]),
-  validateRequest(GetMyFollowers.getAllMyFollowersBodySchema, "body"),
+  validateRequest(GetMyFollowers.getAllMyFollowersQuerySchema, "query"),
   AllMyFollwersController.getAllMyFollowers
 );
 

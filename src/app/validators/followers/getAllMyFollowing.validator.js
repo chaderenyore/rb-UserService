@@ -3,7 +3,7 @@ const Joi = require("joi");
 exports.getAllMyFollowingQuerySchema = Joi.object({
     page: Joi.number().positive().optional(),
     limit: Joi.number().positive().optional(),
-    following_type: Joi.string().optional()
+    following_type: Joi.string().valid('user', 'org').optional()
   });
 
 exports.getAllMyFollowingBodySchema = Joi.object({

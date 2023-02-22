@@ -3,6 +3,9 @@ const { RESPONSE } = require("../../../../_constants/response");
 const createError = require("../../../../_helpers/createError");
 const { createResponse } = require("../../../../_helpers/createResponse");
 const UserService = require("../services/users.services");
+const FollowerService = require("../../followers/services/followers.services");
+const FollowingService = require("../../followers/services/following.service");
+
 const logger = require("../../../../../logger.conf");
 
 exports.updateUserInfo = async (req, res, next) => {
@@ -21,44 +24,27 @@ exports.updateUserInfo = async (req, res, next) => {
         ])
       );
     }
-    if (req.body.phone_number || req.body.username || req.body.email) {
-      const entryTaken = await new UserService().findAUser({
-        $or: [
-          { email: req.body.email },
-          { username: req.body.username },
-          { phone_number: req.body.phone_number },
-        ],
-      });
-      if (entryTaken) {
-        return next(
-          createError(HTTP.BAD_REQUEST, [
-            {
-              status: RESPONSE.ERROR,
-              message: req.body.username
-                ? `Username taken`
-                : req.body.email
-                ? `Email Taken`
-                : req.body.phone_number
-                ? `Phone Number Taken`
-                : {},
-              statusCode: HTTP.BAD_REQUEST,
-              data: {},
-              code: HTTP.BAD_REQUEST,
-            },
-          ])
-        );
-      }
-    }
-    const updatedUser = await new UserService().update(
-      { _id: req.user.user_id },
-      req.body
-    );
-    if (!updatedUser) {
+    console.log("BODY DATA =================  ", req.body);
+    const entryTaken = await new UserService().findAUser({
+      $or: [
+        { email: String(req.body.email)},
+        { username: String(req.body.username)},
+        { phone_number: String(req.body.phone_number)},
+      ],
+    });
+    console.log("FOUND USER =============== ", entryTaken);
+    if (entryTaken) {
       return next(
         createError(HTTP.BAD_REQUEST, [
           {
             status: RESPONSE.ERROR,
-            message: "User Does Not Exist",
+            message: req.body.username
+              ? `Username taken`
+              : req.body.email
+              ? `Email Taken`
+              : req.body.phone_number
+              ? `Phone Number Taken`
+              : {},
             statusCode: HTTP.BAD_REQUEST,
             data: {},
             code: HTTP.BAD_REQUEST,
@@ -66,7 +52,52 @@ exports.updateUserInfo = async (req, res, next) => {
         ])
       );
     } else {
-      return createResponse(`User Record Updated`, updatedUser)(res, HTTP.OK);
+      const updatedUser = await new UserService().update(
+        { _id: req.user.user_id },
+        req.body
+      );
+      if (!updatedUser) {
+        return next(
+          createError(HTTP.BAD_REQUEST, [
+            {
+              status: RESPONSE.ERROR,
+              message: "User Does Not Exist",
+              statusCode: HTTP.BAD_REQUEST,
+              data: {},
+              code: HTTP.BAD_REQUEST,
+            },
+          ])
+        );
+      } else {
+        // build data to update followr and following records
+        let dataToFollower = {};
+        let dataToFollowing = {};
+        if (req.body.username) {
+          dataToFollower.follower_username = req.body.username;
+          dataToFollowing.following_username = req.body.username;
+        }
+        if (req.body.first_name) {
+          dataToFollower.follower_firstname = req.body.first_name;
+          dataToFollowing.following_firstname = req.body.first_name;
+        }
+        if (req.body.last_name) {
+          dataToFollower.follower_lastname = req.body.last_name;
+          dataToFollowing.following_lastname = req.body.last_name;
+        }
+
+        // publish to following and follower queues TODO
+        const updatedFollowing = await new FollowingService().updateMany(
+          { following_id: req.user.user_id },
+          dataToFollowing
+        );
+
+        // update follwer record or following record mannauly
+        const updatedFollower = await new FollowerService().updateMany(
+          { follower_id: req.user.user_id },
+          dataToFollower
+        );
+        return createResponse(`User Record Updated`, updatedUser)(res, HTTP.OK);
+      }
     }
   } catch (err) {
     logger.error(err);
