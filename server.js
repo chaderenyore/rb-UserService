@@ -7,9 +7,9 @@ const FollowingConsumer = require("./src/_queue/consumers/Following.consumer");
 
 const UploadFileConsumer = require("./src/_queue/consumers/uploadFile.consumer");
 
-FollowerConsumer.consume("Update Follower");
-FollowingConsumer.consume("Update Following");
-UploadFileConsumer.consume("Upload File");
+// FollowerConsumer.consume("Update Follower");
+// FollowingConsumer.consume("Update Following");
+// UploadFileConsumer.consume("Upload File");
 
 mongoose.set("strictQuery", true);
 mongoose
