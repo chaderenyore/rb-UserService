@@ -56,7 +56,7 @@ router.get(
 
 router.get(
   "/user/:id",
-  authorizeAdmin(["super", "admin", "support"]),
+  authorize(["org", "user"]),
   validateRequest(SingleUser.getUserByIdSchema, "params"),
   SingleUserController.getAUser
 );
