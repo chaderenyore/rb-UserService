@@ -42,7 +42,13 @@ router.put(
 );
 router.get(
   "/all",
-  authorizeAdmin(["super", "admin", "support"]),
+  authorizeAdmin([
+    "super",
+    "admin",
+    "moderator",
+    "account-view",
+    "account-edit",
+  ]),
   validateRequest(AllUsers.getAllUsersSchema, "body"),
   AllUsersController.getAllUsers
 );
@@ -63,8 +69,14 @@ router.get(
 
 router.post(
   "/sort",
-  authorizeAdmin(["super", "admin", "support"]),
-  validateRequest(SortUser.sortUsersByDateSchema, "body"),
+  authorizeAdmin([
+    "super",
+    "admin",
+    "moderator",
+    "account-view",
+    "account-edit",
+  ]),
+  validateRequest(SortUser.sortUsersByDateSchema, "query"),
   SortUserController.sortUser
 );
 
@@ -76,13 +88,11 @@ router.put(
 );
 
 router.put(
-    "/image",
-    authorize(["admin", "user", "minder"]),
-    // validateRequest(UpdateProfile.updateProfileSchema, "body"),
-    uploadFile("users").single("user_img"),
-    UpdateImageController.updateProfilePicture
-  );
-  
-
+  "/image",
+  authorize(["user", "org"]),
+  // validateRequest(UpdateProfile.updateProfileSchema, "body"),
+  uploadFile("users").single("user_img"),
+  UpdateImageController.updateProfilePicture
+);
 
 module.exports = router;

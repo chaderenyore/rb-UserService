@@ -1,4 +1,5 @@
 const { HTTP } = require("../../../../_constants/http");
+const { RESPONSE } = require("../../../../_constants/response");
 const { TYPE } = require("../../../../_constants/record.type");
 const createError = require("../../../../_helpers/createError");
 const { createResponse } = require("../../../../_helpers/createResponse");
@@ -11,26 +12,26 @@ exports.sortUser = async (req, res, next) => {
     let sortCondition = {};
 
     // set condition for sort
-    req.body.user_type === TYPE.USER
+    req.query.user_type === TYPE.USER
       ? (sortCondition = {
           user_type: TYPE.USER,
           created_at: {
-            $gte: req.body.start_date,
-            $lt: req.body.end_date,
+            $gte: req.query.start_date,
+            $lt: req.query.end_date,
           },
         })
-      : req.body.user_type === TYPE.ORG
+      : req.query.user_type === TYPE.ORG
       ? (sortCondition = {
           user_type: TYPE.ORG,
           created_at: {
-            $gte: req.body.start_date,
-            $lt: req.body.end_date,
+            $gte: req.query.start_date,
+            $lt: req.query.end_date,
           },
         })
       : (sortCondition = {
           created_at: {
-            $gte: req.body.start_date,
-            $lt: req.body.end_date,
+            $gte: req.query.start_date,
+            $lt: req.query.end_date,
           },
         });
     const users = await new UserService().all(
@@ -38,22 +39,22 @@ exports.sortUser = async (req, res, next) => {
       req.query.page,
       sortCondition
     );
-    if (users.length === 0) {
+    if (users.data.length === 0) {
       return next(
-        createError(HTTP.BAD_REQUEST, [
+        createError(HTTP.OK, [
           {
-            status: RESPONSE.ERROR,
+            status: RESPONSE.SUCCESS,
             message: req.body.type
-              ? `No User Of type ${req.body.type} found`
+              ? `No User Of type ${req.query.type} found`
               : "No User Found",
-            statusCode: HTTP.BAD_REQUEST,
+            statusCode: HTTP.OK,
             data: {},
-            code: HTTP.BAD_REQUEST,
+            code: HTTP.OK,
           },
         ])
       );
     } else {
-      return createResponse(`Users retirieved`, users)(res, HTTP.OK);
+      return createResponse(`Users Sorted`, users)(res, HTTP.OK);
     }
   } catch (err) {
     logger.error(err);

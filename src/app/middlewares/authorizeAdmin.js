@@ -24,11 +24,12 @@ exports.authorizeAdmin = (role = []) => {
     }
     try {
       //   validate
-      const user = await axios.get(`${KEYS.adminUri}/admin/v1/validate-token`, {
+      const user = await axios.get(`${KEYS.ADMIN_SERVICE_URI}/admin/v1/validate-token`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("USER ================== ", user.data);
       if (user && user.data)
         if (role.includes(String(user.data.data.admin_role))) {
           req.token = token;
