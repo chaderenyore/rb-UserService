@@ -10,6 +10,7 @@ const KEYS = {
   redisPassword: process.env.REDISPASSWORD,
   appVersion: process.env.APP_VERSION,
   AUTH_URI: process.env.AUTH_URI,
+  ADMIN_SERVICE_URI: process.env.ADMIN_SERVICE_URI,
   AMQP_URI:process.env.AMQP_URI,
   UPDATE_PROFILE_PHOTO_QUEUE: process.env.UPDATE_PROFILE_PHOTO_QUEUE,
   UPDATE_FOLLOWER_QUEUE: process.env.UPDATE_FOLLOWER_QUEUE,

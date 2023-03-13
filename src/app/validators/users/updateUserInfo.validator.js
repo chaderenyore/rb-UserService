@@ -22,4 +22,7 @@ exports.updateProfileSchema = Joi.object({
   city: Joi.string().trim().optional(),
   lga: Joi.string().trim().optional(),
   country: Joi.string().trim().optional(),
+  web_url: Joi.string().uri().optional(),
+  twitter_url: Joi.string().uri().optional(),
+  bio: Joi.string().optional()
 });
