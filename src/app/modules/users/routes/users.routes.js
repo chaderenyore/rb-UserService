@@ -41,6 +41,7 @@ router.put(
   UpdateImageController.updateProfilePicture
 );
 router.get(
+  
   "/all",
   authorizeAdmin([
     "super",

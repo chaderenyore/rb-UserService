@@ -1,6 +1,6 @@
 exports.getPaginatedRecords = async (
     model,
-    { limit: specifiedLimit = 10, page, data = {}, selectedFields, sortFilter = {} }
+    { limit: specifiedLimit = 10, page, data = {}, selectedFields, sortFilter = {created_at: -1} }
   ) => {
     try {
       const limit = Math.min(specifiedLimit, 100); // restrict limit to 100
