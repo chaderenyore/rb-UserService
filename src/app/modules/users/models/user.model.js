@@ -15,7 +15,7 @@ const schema = mongoose.Schema(
     following_count: {type: Number, default: 0},
     user_can_post:{type: Boolean},
     web_url:{type: String},
-    twitter_url:{type: String},
+    twitter_username:{type: String},
     bio: {type: String, maxLength: 20000},
     auth_type:{
       type: String,
