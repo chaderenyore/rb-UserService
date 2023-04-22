@@ -5,6 +5,9 @@ const { createResponse } = require("../../../../_helpers/createResponse");
 const UserService = require("../services/users.services");
 const FollowerService = require("../../followers/services/followers.services");
 const FollowingService = require("../../followers/services/following.service");
+const FollowingQueue = require("../../../../_queue/publishers/publishFollowing");
+const FollowerQueue = require("../../../../_queue/publishers/publishFollower");
+
 
 const logger = require("../../../../../logger.conf");
 
@@ -24,7 +27,6 @@ exports.updateUserInfo = async (req, res, next) => {
         ])
       );
     }
-    console.log("BODY DATA =================  ", req.body);
     const entryTaken = await new UserService().findAUser({
       $or: [
         { email: String(req.body.email)},
@@ -32,7 +34,6 @@ exports.updateUserInfo = async (req, res, next) => {
         { phone_number: String(req.body.phone_number)},
       ],
     });
-    console.log("FOUND USER =============== ", entryTaken);
     if (entryTaken) {
       return next(
         createError(HTTP.BAD_REQUEST, [
@@ -86,6 +87,9 @@ exports.updateUserInfo = async (req, res, next) => {
         }
 
         // publish to following and follower queues TODO
+        const publishTofollowerQueue =  await FollowerQueue.publishFollowerRecord(req.user.user_id, dataToFollower);
+        const publishTofollowingQueue = await FollowingQueue.publishFollowerRecord(req.user.user_id, dataToFollowing);
+
         const updatedFollowing = await new FollowingService().updateMany(
           { following_id: req.user.user_id },
           dataToFollowing
