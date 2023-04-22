@@ -10,13 +10,13 @@ const FollowingConsumer = new Connnection(KEYS.AMQP_URI, KEYS.UPDATE_FOLLOWING_Q
       console.info(` [x] Consumed : ${message}`);
 
       const {
-        following_id,
-        data
+        id,
+        bodyData
       } = JSON.parse(message);
 
       try {
     //    update records here
-    const updatedrecords = await new FollowingService().updateMany({following_id:following_id}, data);
+    const updatedrecords = await new FollowingService().updateMany({following_id:id}, bodyData);
     
         return channel.ack(msg);
       } catch (error) {

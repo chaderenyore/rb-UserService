@@ -1,5 +1,5 @@
-const amqplib = require('amqplib');
-const urlModule = require('url');
+const amqplib = require("amqplib");
+const urlModule = require("url");
 
 class Connnection {
   constructor(url, queue, onMessage) {
@@ -24,22 +24,38 @@ class Connnection {
     return consumer;
   }
 
-  async publish(service, data) {
+  async publish(id, bodyData) {
     const { channel, conn } = await this.createConnection();
+    const data = {
+      id,
+      bodyData
+    }
     this.channel = channel;
     this.conn = conn;
     await channel.assertQueue(this.queue);
-    console.log(`${service} Publisher listening on queue ${this.queue}`);
-    const publisher = await channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(data)));
-    return null
+    const publisher = await channel.sendToQueue(
+      this.queue,
+      Buffer.from(JSON.stringify(data))
+    );
+    console.log(`Published message to ${this.queue}`);
+    console.log(`message to ${data}`);
+
+    
   }
 
   async close() {
     if (!this.channel || !this.conn) {
-      throw new Error('No connection');
+      throw new Error("No connection");
     }
     await this.channel.close();
     await this.conn.close();
+  }
+  async error() {
+    // handle error
+    this.conn.on("error", async (err) => {
+        console.log(`AMQP errored ${error}`);
+      
+    });
   }
 
   async createConnection() {
