@@ -1,7 +1,7 @@
 const { Connnection } = require("../index");
 const KEYS = require("../../_config/keys");
 
-exports.publishFollowingRecord = (id, data) => {
+exports.publishFollowingRecord = async (id, data) => {
   try {
     const FollowingPublisher = new Connnection(
       KEYS.AMQP_URI,
@@ -11,7 +11,8 @@ exports.publishFollowingRecord = (id, data) => {
       }
     );
     const channel = FollowingPublisher.getChannel();
-    FollowingPublisher.publish(id, data);
+    await FollowingPublisher.publish(id, data);
+    await FollowingPublisher.error();
   } catch (error) {
     console.error(error);
   }

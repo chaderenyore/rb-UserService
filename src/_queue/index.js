@@ -38,7 +38,7 @@ class Connnection {
       Buffer.from(JSON.stringify(data))
     );
     console.log(`Published message to ${this.queue}`);
-    console.log(`message to ${data}`);
+    console.log(`message ${data}`);
 
     
   }

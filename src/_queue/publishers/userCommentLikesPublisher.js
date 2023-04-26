@@ -1,7 +1,7 @@
 const { Connnection } = require("../index");
 const KEYS = require("../../_config/keys");
 
-exports.publishUserCommentLiikesRecord = (id, data) => {
+exports.publishUserCommentLiikesRecord = async (id, data) => {
   try {
     let CommentLikePublisher = new Connnection(
       KEYS.AMQP_URI,
@@ -11,7 +11,8 @@ exports.publishUserCommentLiikesRecord = (id, data) => {
       }
     );
     const channel = CommentLikePublisher.getChannel();
-    CommentLikePublisher.publish(id, data);
+    await CommentLikePublisher.publish(id, data);
+    await CommentLikePublisher.error()
   } catch (error) {
     console.error(error);
   }

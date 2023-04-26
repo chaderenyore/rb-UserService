@@ -3,10 +3,18 @@ const { RESPONSE } = require("../../../../_constants/response");
 const createError = require("../../../../_helpers/createError");
 const { createResponse } = require("../../../../_helpers/createResponse");
 const UserService = require("../services/users.services");
-const FollowerService = require("../../followers/services/followers.services");
-const FollowingService = require("../../followers/services/following.service");
 const FollowingQueue = require("../../../../_queue/publishers/publishFollowing");
 const FollowerQueue = require("../../../../_queue/publishers/publishFollower");
+const PostCommentsQueue = require("../../../../_queue/publishers/postComments");
+const PostCommentsRepliesQueue = require("../../../../_queue/publishers/postComReplies");
+const PostCommentLikesQueue = require("../../../../_queue/publishers/userCommentLikesPublisher");
+const PostDetailsQueue = require("../../../../_queue/publishers/userPostDetailsPublisher");
+const PostLikesQueue = require("../../../../_queue/publishers/userPostLikesPublisher");
+const ResearchCommentsQueue = require("../../../../_queue/publishers/researchPublishers/comments");
+const ResearchCommentsRepliesQueue = require("../../../../_queue/publishers/researchPublishers/commentReplies");
+const ResearchCommentLikesQueue = require("../../../../_queue/publishers/researchPublishers/commentLikesPublisher");
+const ResearchDetailsQueue = require("../../../../_queue/publishers/researchPublishers/userResearchDetailsPublisher");
+const ResearchLikesQueue = require("../../../../_queue/publishers/researchPublishers/researchLikesLikesPublisher");
 
 
 const logger = require("../../../../../logger.conf");
@@ -88,18 +96,8 @@ exports.updateUserInfo = async (req, res, next) => {
 
         // publish to following and follower queues TODO
         const publishTofollowerQueue =  await FollowerQueue.publishFollowerRecord(req.user.user_id, dataToFollower);
-        const publishTofollowingQueue = await FollowingQueue.publishFollowerRecord(req.user.user_id, dataToFollowing);
+        const publishTofollowingQueue = await FollowingQueue.publishFollowingRecord(req.user.user_id, dataToFollowing);
 
-        const updatedFollowing = await new FollowingService().updateMany(
-          { following_id: req.user.user_id },
-          dataToFollowing
-        );
-
-        // update follwer record or following record mannauly
-        const updatedFollower = await new FollowerService().updateMany(
-          { follower_id: req.user.user_id },
-          dataToFollower
-        );
         return createResponse(`User Record Updated`, updatedUser)(res, HTTP.OK);
       }
     }

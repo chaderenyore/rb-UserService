@@ -1,17 +1,18 @@
 const { Connnection } = require("../index");
 const KEYS = require("../../_config/keys");
 
-exports.publishPostCommentRecord = (id, data) => {
+exports.publishPostCommentRecord = async (id, data) => {
   try {
     let PostCommentPublisher = new Connnection(
       KEYS.AMQP_URI,
-      KEYS.UPDATE_USER_POSTCOMMENT_DETAILS,
+      KEYS.UPDATE_USER_POST_COMMENT_DETAILS,
       async (msg) => {
-        console.log(`${KEYS.UPDATE_USER_POST_DETAILS} publishing...`);
+        console.log(`${UPDATE_USER_POST_COMMENT_DETAILS} publishing...`);
       }
     );
     const channel = PostCommentPublisher.getChannel();
-    PostCommentPublisher.publish(id, data);
+    await PostCommentPublisher.publish(id, data);
+    await PostCommentPublisher.error();
   } catch (error) {
     console.error(error);
   }
