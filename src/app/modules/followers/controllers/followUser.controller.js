@@ -10,7 +10,7 @@ const logger = require("../../../../../logger.conf");
 exports.followUser = async (req, res, next) => {
   try {
     // stop user from foloowing themselves
-    if (req.user.user_id === req.body.follower_owner_id) {
+    if (req.user.user_id === req.body.following_id) {
       return next(
         createError(HTTP.BAD_REQUEST, [
           {
@@ -44,7 +44,6 @@ exports.followUser = async (req, res, next) => {
         ])
       );
     }
-    console.log("USER ================ ", User);
     if (!User) {
       return next(
         createError(HTTP.BAD_REQUEST, [
@@ -60,7 +59,6 @@ exports.followUser = async (req, res, next) => {
     } else {
       // search if user is already following the target
       const isFollowing = await new FollowerService().findAFollower({follower_id:req.user.user_id, following_id: req.body.following_id});
-      console.log("ISFOLLOWING ======================= ", isFollowing);
       if (isFollowing) {
         return next(
           createError(HTTP.BAD_REQUEST, [

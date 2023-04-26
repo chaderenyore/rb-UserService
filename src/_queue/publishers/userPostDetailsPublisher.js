@@ -1,7 +1,7 @@
 const { Connnection } = require("../index");
 const KEYS = require("../../_config/keys");
 
-exports.publishUserPostRecord = (id, data) => {
+exports.publishUserPostRecord = async (id, data) => {
   try {
     let PostPublisher = new Connnection(
       KEYS.AMQP_URI,
@@ -11,7 +11,8 @@ exports.publishUserPostRecord = (id, data) => {
       }
     );
     const channel = PostPublisher.getChannel();
-    PostPublisher.publish(id, data);
+    await PostPublisher.publish(id, data);
+    await PostPublisher.error()
   } catch (error) {
     console.error(error);
   }

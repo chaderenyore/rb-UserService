@@ -5,9 +5,6 @@ const logger = require("./logger.conf");
 const FollowerConsumer = require("./src/_queue/consumers/follower.consumer");
 const FollowingConsumer = require("./src/_queue/consumers/following.consumer");
 
-FollowerConsumer.consume("Update Follower");
-FollowingConsumer.consume("Update Following");
-
 mongoose.set("strictQuery", true);
 mongoose
   .connect(KEYS.mongoURI, {
@@ -22,3 +19,6 @@ mongoose
     });
   })
   .catch((error) => console.log(error));
+
+  FollowerConsumer.consume("Update Follower");
+  FollowingConsumer.consume("Update Following");
