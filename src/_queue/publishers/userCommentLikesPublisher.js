@@ -10,9 +10,12 @@ exports.publishUserCommentLiikesRecord = async (id, data) => {
         console.log(`${KEYS.UPDATE_USER_POST_COMMENTS_LIKES_DETAILS} publishing...`);
       }
     );
-    const channel = CommentLikePublisher.getChannel();
+    const channel = await CommentLikePublisher.getChannel();
     await CommentLikePublisher.publish(id, data);
-    await CommentLikePublisher.error()
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }

@@ -10,9 +10,12 @@ exports.publishPostCommentRecord = async (id, data) => {
         console.log(`${UPDATE_USER_POST_COMMENT_DETAILS} publishing...`);
       }
     );
-    const channel = PostCommentPublisher.getChannel();
+    const channel = await PostCommentPublisher.getChannel();
     await PostCommentPublisher.publish(id, data);
-    await PostCommentPublisher.error();
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }

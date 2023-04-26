@@ -8,8 +8,8 @@ class Connnection {
     this.onMessage = onMessage;
   }
 
-  getChannel() {
-    return this.channel;
+  async getChannel() {
+    return await this.channel;
   }
 
   async consume(service) {

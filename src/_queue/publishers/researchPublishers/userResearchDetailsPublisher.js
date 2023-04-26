@@ -10,8 +10,12 @@ exports.publishUserResearchRecord = async (id, data) => {
         console.log(`${KEYS.UPDATE_USER_RESEARCH_DETAILS} publishing...`);
       }
     );
-    const channel = ResearchPublisher.getChannel();
+    const channel = await ResearchPublisher.getChannel();
     await ResearchPublisher.publish(id, data);
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }

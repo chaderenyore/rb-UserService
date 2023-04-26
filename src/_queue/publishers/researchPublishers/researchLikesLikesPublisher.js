@@ -10,8 +10,12 @@ exports.publishUserResearchLikesRecord = async (id, data) => {
         console.log(`${KEYS.UPDATE_USER_RESEARCH_LIKE_DETAILS} publishing...`);
       }
     );
-    const channel = ResearchLikesPublisher.getChannel();
+    const channel = await ResearchLikesPublisher.getChannel();
     await ResearchLikesPublisher.publish(id, data);
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }
