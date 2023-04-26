@@ -10,9 +10,12 @@ exports.publishFollowingRecord = async (id, data) => {
         console.log("Publishing......");
       }
     );
-    const channel = FollowingPublisher.getChannel();
+    const channel = await FollowingPublisher.getChannel();
     await FollowingPublisher.publish(id, data);
-    await FollowingPublisher.error();
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }

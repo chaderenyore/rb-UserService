@@ -10,9 +10,12 @@ exports.publishUserPostRecord = async (id, data) => {
         console.log(`${KEYS.UPDATE_USER_POST_DETAILS} publishing...`);
       }
     );
-    const channel = PostPublisher.getChannel();
+    const channel = await PostPublisher.getChannel();
     await PostPublisher.publish(id, data);
-    await PostPublisher.error()
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
   } catch (error) {
     console.error(error);
   }

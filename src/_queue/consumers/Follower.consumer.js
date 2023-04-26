@@ -4,7 +4,7 @@ const FollowerService = require('../../app/modules/followers/services/followers.
 
 const FollowerConsumer = new Connnection(KEYS.AMQP_URI, KEYS.UPDATE_FOLLOWER_QUEUE,
   async (msg) => {
-    const channel = FollowerConsumer.getChannel();
+    const channel = await FollowerConsumer.getChannel();
     if (msg !== null) {
       const message = msg.content.toString();
       console.info(` [x] Consumed : ${message}`);
@@ -23,7 +23,10 @@ const FollowerConsumer = new Connnection(KEYS.AMQP_URI, KEYS.UPDATE_FOLLOWER_QUE
         return channel.ack(msg);
       }
     }
-
+    process.on('exit', (code) => {
+      channel.close();
+      console.log(`Closing ${channel} channel`);
+   });
     return null;
   });
 
