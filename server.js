@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const app = require("./src");
 const KEYS = require("./src/_config/keys");
 const logger = require("./logger.conf");
-const FollowerConsumer = require("./src/_queue/consumers/follower.consumer");
-const FollowingConsumer = require("./src/_queue/consumers/following.consumer");
+const FollowerConsumer = require("./src/_queue/consumers/Follower.consumer");
+const FollowingConsumer = require("./src/_queue/consumers/Following.consumer");
 
 mongoose.set("strictQuery", true);
 mongoose
