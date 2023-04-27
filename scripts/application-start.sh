@@ -6,6 +6,4 @@ export NVM_DIR="$HOME/.nvm"
 export HOME="/home/ubuntu/"
 sudo PM2_HOME=/home/ubuntu/services/.pm2 pm2 list
 cd /home/ubuntu/services/Users
-# pm2 delete 
-# pm2 --name 
 pm2 restart USERS-SERVICE
