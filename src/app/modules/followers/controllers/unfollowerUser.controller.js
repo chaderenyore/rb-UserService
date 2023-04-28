@@ -48,11 +48,11 @@ exports.UnfollowUser = async (req, res, next) => {
       // update following count of follow
       const updatedFollower = await new UserService().update(
         { _id: req.user.user_id },
-        { $inc: { following_count: -1 } }
+        { $inc: { 'following_count': -1 } }
       );
       // update follower count of following
       const updatedFollowing = await new UserService().update(
-        { _id: req.body.follower_owner_id },
+        { _id: req.body.following_id },
         { $inc: { 'follower_count': -1 } }
       );
       return createResponse("Unfollowed User Successfully", User)(res, HTTP.OK);
