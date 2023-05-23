@@ -33,7 +33,16 @@ exports.updateProfilePicture = async (req, res, next) => {
         ])
       );
     }
-
+  if(req.query.type === "cover"){
+    await new UserService().update(
+      { _id: req.user.user_id },
+      { cover_img: req.file?.location }
+    );
+    return createResponse("Cover Image updated", { coverImage: req.file?.location })(
+      res,
+      HTTP.OK
+    );
+  }
     await new UserService().update(
       { _id: req.user.user_id },
       { image: req.file?.location }
