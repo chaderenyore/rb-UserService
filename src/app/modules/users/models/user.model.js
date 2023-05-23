@@ -23,6 +23,7 @@ const schema = mongoose.Schema(
       enum: ["lc", "gg", "fb", "ap"],
     },
     image: String,
+    cover_img: String,
     user_type: {
       type: String,
       enum: ["user", "org" ],
