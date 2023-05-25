@@ -12,6 +12,7 @@ exports.createUserSchema = Joi.object().keys({
   gender: Joi.string().trim().optional(),
   dob: Joi.date().format(["YYYY/MM/DD", "DD-MM-YYYY"]).utc().optional(),
   referral_code: Joi.string().trim().optional(),
+  invite_code:Joi.string().optional(),
   username: Joi.string()
     .trim()
     .when("email", {
