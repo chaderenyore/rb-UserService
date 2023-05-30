@@ -14,6 +14,8 @@ const schema = mongoose.Schema(
     email: String,
     follower_count: {type: Number, default: 0, minimum: 0},
     following_count: {type: Number, default: 0, minimum: 0},
+    total_public_post:{type: Number, default : 0, minimum: 0},
+    total_public_research:{type: Number, default : 0, minimum: 0},
     user_can_post:{type: Boolean},
     web_url:{type: String},
     twitter_username:{type: String},

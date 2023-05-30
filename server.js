@@ -5,6 +5,8 @@ const logger = require("./logger.conf");
 const FollowerConsumer = require("./src/_queue/consumers/Follower.consumer");
 const FollowingConsumer = require("./src/_queue/consumers/Following.consumer");
 const BlockUnblockUserConsumer = require("./src/_queue/consumers/BlockUnblockUser.consumer");
+const UpdateUserConsumer = require("./src/_queue/consumers/updateUserDetail.consumer");
+
 
 
 mongoose.set("strictQuery", true);
@@ -25,3 +27,4 @@ mongoose
   FollowerConsumer.consume("Update Follower");
   FollowingConsumer.consume("Update Following");
   BlockUnblockUserConsumer.consume("BlockUnblock User");
+  UpdateUserConsumer.consume("Update User Details Consumers")
