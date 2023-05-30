@@ -25,5 +25,6 @@ exports.updateProfileSchema = Joi.object({
   web_url: Joi.string().uri().optional(),
   twitter_username: Joi.string().optional(),
   twitter_url: Joi.string().uri().optional(),
-  bio: Joi.string().optional()
+  bio: Joi.string().optional(),
+  invite_code:Joi.string().optional(),
 });
