@@ -5,6 +5,7 @@ const { createResponse } = require("../../../../_helpers/createResponse");
 const FollowerService = require("../services/followers.services");
 const FollowingService = require("../services/following.service");
 const UserService = require("../../users/services/users.services");
+const InAppNotifcationPublisher = require("../../../../_queue/publishers/inAppNotification.publishers");
 const logger = require("../../../../../logger.conf");
 
 exports.followUser = async (req, res, next) => {
@@ -104,7 +105,22 @@ exports.followUser = async (req, res, next) => {
             { _id: req.body.following_id },
             { $inc: { 'follower_count': 1 } }
           );
-          console.log("UPDATED FOLLWING ============== ", updatedFollowing);
+        // publish to InApp Notificaton
+        // build data
+        let Follower_firstname = FollwerUser.first_name || "";
+        let Follower_lastname = FollwerUser.last_name || "";
+        const dataToInnAppQueue = {
+          user_id: req.body.following_id,
+          notification_type: 'follow',
+          message: `${FollwerUser.username} just followed you`,
+          notifier_image: FollwerUser.image ? FollwerUser.image : "",
+          notifier_username: FollwerUser.username,
+          notifier_fullname: `${Follower_firstname} ${Follower_lastname}`,
+          origin_service: 'User',
+          origin_platform: req.query.platform
+        }
+        // publish here
+        await InAppNotifcationPublisher.publishInAppNotifcation(req.body.following_id, dataToInnAppQueue);
           return createResponse("Successfully Followed A User", user)(
             res,
             HTTP.OK
