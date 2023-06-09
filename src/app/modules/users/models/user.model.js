@@ -32,6 +32,7 @@ const schema = mongoose.Schema(
       enum: ["user", "org" ],
     },
     is_blocked:{type: Boolean},
+    is_verified:{type: Boolean},
     gender: { type: String},
     dob: Date,
     age: Number,

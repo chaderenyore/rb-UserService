@@ -18,6 +18,10 @@ class UserService {
   async update(condition, update) {
     return this.UserRepository.update(condition, update);
   }
+
+  async updateMany(condition, update) {
+    return this.UserRepository.updateMany(condition, update);
+  }
   async deleteAll(condition) {
     return this.UserRepository.deleteMany(condition);
   }
