@@ -9,10 +9,10 @@ exports.viewAllUsers = async (req, res, next) => {
   try {
     let data;
     req.query.type === TYPE.USER
-      ? (data = { user_type: TYPE.USER })
+      ? (data = { user_type: TYPE.USER, is_verified: true })
       : req.query.type === TYPE.ORG
-      ? (data = { user_type: TYPE.ORG })
-      : (data = {});
+      ? (data = { user_type: TYPE.ORG, is_verified: true })
+      : (data = {is_verified: true});
 
     const users = await new UserService().all(
       req.query.limit,

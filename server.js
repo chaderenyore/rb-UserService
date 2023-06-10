@@ -6,6 +6,8 @@ const FollowerConsumer = require("./src/_queue/consumers/Follower.consumer");
 const FollowingConsumer = require("./src/_queue/consumers/Following.consumer");
 const BlockUnblockUserConsumer = require("./src/_queue/consumers/BlockUnblockUser.consumer");
 const UpdateUserConsumer = require("./src/_queue/consumers/updateUserDetail.consumer");
+const VerifyUserConsumer = require("./src/_queue/consumers/verifyUserQueue.consumer");
+
 
 
 
@@ -27,4 +29,6 @@ mongoose
   FollowerConsumer.consume("Update Follower");
   FollowingConsumer.consume("Update Following");
   BlockUnblockUserConsumer.consume("BlockUnblock User");
-  UpdateUserConsumer.consume("Update User Details Consumers")
+  UpdateUserConsumer.consume("Update User Details Consumers");
+  VerifyUserConsumer.consume("Verify User Consumers");
+

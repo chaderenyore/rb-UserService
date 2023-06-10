@@ -13,6 +13,10 @@ class FollowerService {
     return this.FollowerRepository.findOne (query)
   }
 
+  async findAllFollowers(query) {
+    return this.FollowerRepository.find (query)
+  }
+
   async update (condition, update) {
     return this.FollowerRepository.update (condition, update)
 
