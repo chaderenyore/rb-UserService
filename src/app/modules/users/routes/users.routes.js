@@ -2,11 +2,18 @@ const { Router } = require("express");
 const { authorize } = require("../../../middlewares/authorizeUser");
 const { authorizeAdmin } = require("../../../middlewares/authorizeAdmin");
 const validateRequest = require("../../../middlewares/vallidate");
+
+// validators
 const CreateUser = require("../../../validators/users/createUser.validator");
 const AllUsers = require("../../../validators/users/getAllUsers.validator");
 const SingleUser = require("../../../validators/users/getSingleUser.validator");
 const SortUser = require("../../../validators/users/sortUser.validator");
 const UpdateProfile = require("../../../validators/users/updateUserInfo.validator");
+const TopResearchers = require("../../../validators/users/topResearchers.validator");
+const RecommendedUsers = require("../../../validators/users/fetchRecommendedUsers.validator");
+
+
+// controllers
 const CreateUserController = require("../controllers/createUser.controller");
 const AllUsersController = require("../controllers/adminGetAllUsers.controllers");
 const SingleUserController = require("../controllers/getSingleUser.controller");
@@ -15,6 +22,11 @@ const SortUserController = require("../controllers/adminSortUsers.controllers");
 const UpdateUserController = require("../controllers/updateUserInfo.controller");
 const UpdateImageController = require("../controllers/uploadUserImage.controller");
 const ViewAllUsersController = require("../controllers/viewAllUsersInCommunity.controller");
+const TopResearchersController = require("../controllers/fetchTopResearchers.controllers");
+const RecommendedUsersController = require("../controllers/fetchRecommendedUsers");
+
+
+
 
 const uploadFile = require("../../../../_helpers/uploadFile");
 const KEYS = require("../../../../_config/keys");
@@ -86,6 +98,20 @@ router.put(
   authorize(["org", "user"]),
   validateRequest(UpdateProfile.updateProfileSchema, "body"),
   UpdateUserController.updateUserInfo
+);
+
+router.get(
+  "/top-researchers",
+  authorize(["org", "user"]),
+  validateRequest(TopResearchers.TopReserachersSchema, "query"),
+  TopResearchersController.fetchTopResearchers
+);
+
+router.get(
+  "/recommended",
+  authorize(["org", "user"]),
+  validateRequest(RecommendedUsers.RecomnededUsersSchema, "query"),
+  RecommendedUsersController.fetchRecommendedUsers
 );
 
 router.put(

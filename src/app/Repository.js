@@ -33,6 +33,16 @@ class Repository {
     });
   }
 
+  fetchAllOrderBy(limit, page, data, selectedFields, sortFilter) {
+    return getPaginatedRecords(this.Model, {
+      limit: limit,
+      page: page,
+      data,
+      selectedFields,
+      sortFilter
+    });
+  }
+
   count(condition, callback) {
     if (condition) {
       return this.Model.where(condition).count(callback);

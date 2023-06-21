@@ -81,22 +81,81 @@ exports.updateUserInfo = async (req, res, next) => {
         // build data to update followr and following records
         let dataToFollower = {};
         let dataToFollowing = {};
+        let dataToPostDetails = {};
+        let dataToPostLikes = {};
+        let dataToPostComments = {};
+        let dataToPostCommentsLikes = {};
+        let dataToPostCommnetsReplies = {};
+        let dataToResearchDetails = {};
+        let dataToResearchLikes = {};
+        let dataToResearchComments = {};
+        let dataToResearchCommentsLikes = {};
+        let dataToResearchCommnetsReplies = {};
+        let fullName = "";
         if (req.body.username) {
-          dataToFollower.follower_username = req.body.username;
-          dataToFollowing.following_username = req.body.username;
+          dataToFollower.username = req.body.username;
+          dataToFollowing.username = req.body.username;
+          dataToPostDetails.username = req.body.username;
+          dataToPostLikes.username = req.body.username;
+          dataToPostComments.username = req.body.username;
+          dataToPostCommentsLikes.username = req.body.username;
+          dataToPostCommnetsReplies.username = req.body.username;
+          dataToResearchDetails.username = req.body.username;
+          dataToResearchLikes.username = req.body.username;
+          dataToResearchComments.username = req.body.username;
+          dataToResearchCommentsLikes.username = req.body.username;
+          dataToResearchCommnetsReplies.username = req.body.username;
         }
         if (req.body.first_name) {
+          let lastName = updatedUser.last_name ? updatedUser.last_name : "";
+          fullName = `${req.body.first_name} ${lastName}`
           dataToFollower.follower_firstname = req.body.first_name;
           dataToFollowing.following_firstname = req.body.first_name;
+          dataToPostDetails.fullName = fullName;
+          dataToPostLikes.fullName = fullName;
+          dataToPostComments.fullName = fullName;
+          dataToPostCommentsLikes.fullName = fullName;
+          dataToPostCommnetsReplies.fullName = fullName;
+          dataToResearchDetails.firstName = req.body.first_name;
+          dataToResearchLikes.fullName = fullName;
+          dataToResearchComments.fullName = fullName;
+          dataToResearchCommentsLikes.fullName = fullName;
+          dataToResearchCommnetsReplies.fullName = fullName;
         }
         if (req.body.last_name) {
+          let firstName = updatedUser.first_name ? updatedUser.first_name : "";
+          fullName = `${firstName} ${req.body.last_name}`;
           dataToFollower.follower_lastname = req.body.last_name;
           dataToFollowing.following_lastname = req.body.last_name;
+          dataToPostDetails.fullName = fullName;
+          dataToPostLikes.fullName = fullName;
+          dataToPostComments.fullName = fullName;
+          dataToPostCommentsLikes.fullName = fullName;
+          dataToPostCommnetsReplies.fullName = fullName;
+          dataToResearchDetails.lastName = req.body.last_name;
+          dataToResearchLikes.fullName = fullName;
+          dataToResearchComments.fullName = fullName;
+          dataToResearchCommentsLikes.fullName = fullName;
+          dataToResearchCommnetsReplies.fullName = fullName;
         }
 
         // publish to following and follower queues TODO
         const publishTofollowerQueue =  await FollowerQueue.publishFollowerRecord(req.user.user_id, dataToFollower);
         const publishTofollowingQueue = await FollowingQueue.publishFollowingRecord(req.user.user_id, dataToFollowing);
+
+        // publish To Posts Queues
+        const publsihToPostDetailsQueue = PostDetailsQueue.publishUserPostRecord(req.user.user_id, dataToPostDetails);
+        const publsihToPostLikesQueue = PostLikesQueue.publishUserPostLikesRecord(req.user.user_id, dataToPostLikes);
+        const publsihToPostCommentsQueue = PostCommentsQueue.publishPostCommentRecord(req.user.user_id, dataToPostComments);
+        const publsihToPostCommentsLikesQueue = PostCommentLikesQueue.publishUserCommentLiikesRecord(req.user.user_id, dataToPostCommentsLikes);
+        const publsihToPostCommentsRepliesQueue = PostCommentsRepliesQueue.publishCommentRepliesRecord(req.user.user_id, dataToPostCommnetsReplies);
+
+        // publish To Research Queues
+        const publishToResearchDetailsQueue = ResearchDetailsQueue.publishUserResearchRecord(req.user.user_id, dataToResearchDetails);
+        const publishToResearchLikeQueue = ResearchLikesQueue.publishUserResearchLikesRecord(req.user.user_id, dataToResearchLikes);
+        const publishToResearchCommentsQueue = ResearchCommentsQueue.publishResearchCommentRecord(req.user.user_id, dataToResearchComments);
+        const publishToResearchCommentsLikesQueue = ResearchCommentLikesQueue.publishResearchCommentLiikesRecord(req.user.user_id, dataToResearchCommentsLikes);
+        const publishToResearchCommentsRepliesQueue = ResearchCommentsRepliesQueue.publishCommentRepliesRecord(req.user.user_id, dataToResearchCommnetsReplies);
 
         return createResponse(`User Record Updated`, updatedUser)(res, HTTP.OK);
       }

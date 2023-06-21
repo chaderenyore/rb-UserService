@@ -7,7 +7,7 @@ exports.publishPostCommentRecord = async (id, data) => {
       KEYS.AMQP_URI,
       KEYS.UPDATE_USER_POST_COMMENT_DETAILS,
       async (msg) => {
-        console.log(`${UPDATE_USER_POST_COMMENT_DETAILS} publishing...`);
+        console.log(`${KEYS.UPDATE_USER_POST_COMMENT_DETAILS} publishing...`);
       }
     );
     const channel = await PostCommentPublisher.getChannel();
