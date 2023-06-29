@@ -24,6 +24,8 @@ const UpdateImageController = require("../controllers/uploadUserImage.controller
 const ViewAllUsersController = require("../controllers/viewAllUsersInCommunity.controller");
 const TopResearchersController = require("../controllers/fetchTopResearchers.controllers");
 const RecommendedUsersController = require("../controllers/fetchRecommendedUsers");
+const CountUsersController = require("../controllers/adminFetchNumberOfUser.controller");
+
 
 
 
@@ -112,6 +114,12 @@ router.get(
   authorize(["org", "user"]),
   validateRequest(RecommendedUsers.RecomnededUsersSchema, "query"),
   RecommendedUsersController.fetchRecommendedUsers
+);
+
+router.get(
+  "/numberof-users",
+  authorizeAdmin(["super", "admin", "moderator", "account-view", "account-edit"]),
+  CountUsersController.fetchNumberOfUsers
 );
 
 router.put(

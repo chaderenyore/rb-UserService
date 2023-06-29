@@ -37,6 +37,10 @@ class UserService {
   async findUserById(id) {
     return this.UserRepository.findById(id);
   }
+
+  async countDocuments(filter = {}) {
+    return this.UserRepository.count(filter);
+  }
 }
 
 module.exports = UserService;

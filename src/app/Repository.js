@@ -43,11 +43,8 @@ class Repository {
     });
   }
 
-  count(condition, callback) {
-    if (condition) {
-      return this.Model.where(condition).count(callback);
-    }
-    return this.Model.count();
+  count (condition = {}) {
+    return this.Model.count(condition);
   }
 
   delete(condition) {
