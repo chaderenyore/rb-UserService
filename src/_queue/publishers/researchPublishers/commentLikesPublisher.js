@@ -7,7 +7,7 @@ exports.publishResearchCommentLiikesRecord = async (id, data) => {
       KEYS.AMQP_URI,
       KEYS.UPDATE_USER_RESEARCH_COMMENTS_LIKES_DETAILS,
       async (msg) => {
-        console.log(`${KEYS.UPDATE_USER_POST_COMMENTS_LIKES_DETAILS} publishing...`);
+        console.log(`${KEYS.UPDATE_USER_RESEARCH_COMMENTS_LIKES_DETAILS} publishing...`);
       }
     );
     const channel = await ResearchCommentLikePublisher.getChannel();

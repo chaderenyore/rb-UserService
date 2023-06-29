@@ -21,6 +21,10 @@ class Connnection {
     const consumer = await channel.consume(this.queue, (msg) => {
       this.onMessage(msg);
     });
+    // handle Error
+    this.conn.on("error", async (err) => {
+      console.log(`AMQP errored ${err}`);
+    });
     return consumer;
   }
 
@@ -28,8 +32,8 @@ class Connnection {
     const { channel, conn } = await this.createConnection();
     const data = {
       id,
-      bodyData
-    }
+      bodyData,
+    };
     this.channel = channel;
     this.conn = conn;
     await channel.assertQueue(this.queue);
@@ -39,8 +43,6 @@ class Connnection {
     );
     console.log(`Published message to ${this.queue}`);
     console.log(`message ${data}`);
-
-    
   }
 
   async close() {
@@ -53,8 +55,7 @@ class Connnection {
   async error() {
     // handle error
     this.conn.on("error", async (err) => {
-        console.log(`AMQP errored ${error}`);
-      
+      console.log(`AMQP errored ${error}`);
     });
   }
 

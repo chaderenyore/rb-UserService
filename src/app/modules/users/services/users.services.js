@@ -30,8 +30,16 @@ class UserService {
     return this.UserRepository.all(limit, page, data);
   }
 
+  async fetchAllOrderBy(limit, page, data, _, sortFilter) {
+    return this.UserRepository.fetchAllOrderBy(limit, page, data, _, sortFilter);
+  }
+
   async findUserById(id) {
     return this.UserRepository.findById(id);
+  }
+
+  async countDocuments(filter = {}) {
+    return this.UserRepository.count(filter);
   }
 }
 
