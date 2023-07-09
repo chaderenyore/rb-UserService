@@ -12,7 +12,6 @@ exports.fetchRecommendedUsers = async (req, res, next) => {
       req.query.limit,
       req.query.page,
       {user_type:"user"},
-      _,
     {follower_count: -1}
     );
     if(users.data.length === 0){
