@@ -12,7 +12,6 @@ exports.fetchTopResearchers = async (req, res, next) => {
       req.query.limit,
       req.query.page,
       {user_type:"user"},
-      _,
     {total_public_research: -1}
     );
     if(users.data.length === 0){
