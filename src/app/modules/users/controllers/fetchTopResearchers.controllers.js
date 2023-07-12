@@ -11,7 +11,7 @@ exports.fetchTopResearchers = async (req, res, next) => {
     const users = await new UserService().fetchAllOrderBy(
       req.query.limit,
       req.query.page,
-      {user_type:"user"},
+      {user_type:"user", total_public_research: {$gte: 1}},
     {total_public_research: -1}
     );
     if(users.data.length === 0){
