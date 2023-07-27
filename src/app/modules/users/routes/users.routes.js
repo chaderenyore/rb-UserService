@@ -43,7 +43,6 @@ router.post(
 
 router.get(
   "/profile/:username",
-  authorize(["org", "user"]),
   UserProfileController.getUserProfile
 );
 
@@ -70,7 +69,6 @@ router.get(
 
 router.get(
   "/view-users",
-  authorize(["user", "org"]),
   validateRequest(AllUsers.getAllUsersSchema, "body"),
   ViewAllUsersController.viewAllUsers
 );
@@ -104,7 +102,6 @@ router.put(
 
 router.get(
   "/top-researchers",
-  authorize(["org", "user"]),
   validateRequest(TopResearchers.TopReserachersSchema, "query"),
   TopResearchersController.fetchTopResearchers
 );
